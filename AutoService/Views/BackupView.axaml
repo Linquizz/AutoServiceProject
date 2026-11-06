@@ -1,0 +1,18 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AutoService.Views.BackupView">
+    <Border Classes="card">
+        <StackPanel Spacing="8">
+            <TextBlock Text="Резервное копирование базы данных" Classes="h2" Margin="0" />
+            <WrapPanel Classes="row">
+                <TextBox Width="480" Text="{Binding FolderPath}" />
+                <Button Content="Обзор..." Command="{Binding BrowseCommand}" />
+                <Button Content="Создать резервную копию" Classes="primary" Command="{Binding CreateBackupCommand}"
+                        IsEnabled="{Binding !IsBusy}" />
+            </WrapPanel>
+            <TextBlock Classes="hint"
+                       Text="Файл .bak создаёт сам SQL Server, поэтому папка должна быть доступна его службе. Если поле пустое, копия сохраняется в папку резервных копий сервера по умолчанию." />
+            <TextBlock Text="{Binding LastBackupText}" Classes="hint" />
+        </StackPanel>
+    </Border>
+</UserControl>

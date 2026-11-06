@@ -1,0 +1,35 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AutoService.Views.ClientEditWindow"
+        Title="{Binding Title}"
+        Width="440" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="22" Spacing="2">
+        <TextBlock Text="{Binding Title}" Classes="h1" />
+
+        <TextBlock Text="Фамилия *" Classes="label" />
+        <TextBox Text="{Binding LastName}" />
+
+        <TextBlock Text="Имя *" Classes="label" />
+        <TextBox Text="{Binding FirstName}" />
+
+        <TextBlock Text="Отчество" Classes="label" />
+        <TextBox Text="{Binding MiddleName}" />
+
+        <TextBlock Text="Телефон * (например, +7 900 123-45-67)" Classes="label" />
+        <TextBox Text="{Binding Phone}" />
+
+        <TextBlock Text="E-mail (на него придёт заказ-наряд)" Classes="label" />
+        <TextBox Text="{Binding Email}" />
+
+        <TextBlock Text="{Binding ErrorMessage}" Classes="error" IsVisible="{Binding HasError}" />
+        <TextBlock Text="* - обязательные поля" Classes="hint" Margin="0,8,0,0" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,14,0,0">
+            <Button Content="Сохранить" Classes="primary" Command="{Binding SaveCommand}" IsDefault="True" />
+            <Button Content="Отмена" Command="{Binding CancelCommand}" IsCancel="True" />
+        </StackPanel>
+    </StackPanel>
+    </ScrollViewer>
+</Window>

@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AutoService.Views.CarEditWindow"
+        Title="{Binding Title}"
+        Width="520" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="22" Spacing="2">
+        <TextBlock Text="{Binding Title}" Classes="h1" />
+
+        <TextBlock Text="Владелец *" Classes="label" />
+        <ComboBox ItemsSource="{Binding Owners}" SelectedItem="{Binding SelectedOwner}"
+                  IsEnabled="{Binding CanChangeOwner}" HorizontalAlignment="Stretch" />
+
+        <Grid ColumnDefinitions="*,*" Margin="0,0,0,0">
+            <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                <TextBlock Text="Государственный номер *" Classes="label" />
+                <TextBox Text="{Binding RegistrationNumber}" IsEnabled="{Binding CanEditPlate}" MaxLength="10" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="6,0,0,0">
+                <TextBlock Text="VIN (17 символов)" Classes="label" />
+                <TextBox Text="{Binding Vin}" MaxLength="17" />
+            </StackPanel>
+        </Grid>
+
+        <Grid ColumnDefinitions="*,*">
+            <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                <TextBlock Text="Марка *" Classes="label" />
+                <ComboBox ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}" HorizontalAlignment="Stretch" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="6,0,0,0">
+                <TextBlock Text="Модель *" Classes="label" />
+                <ComboBox ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedModel}" HorizontalAlignment="Stretch" />
+            </StackPanel>
+        </Grid>
+
+        <Grid ColumnDefinitions="*,*,*">
+            <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                <TextBlock Text="Год выпуска *" Classes="label" />
+                <TextBox Text="{Binding YearText}" MaxLength="4" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="6,0,6,0">
+                <TextBlock Text="Тип двигателя *" Classes="label" />
+                <ComboBox ItemsSource="{Binding EngineTypes}" SelectedItem="{Binding SelectedEngineType}" HorizontalAlignment="Stretch" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" Margin="6,0,0,0">
+                <TextBlock Text="Пробег, км *" Classes="label" />
+                <TextBox Text="{Binding MileageText}" />
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Text="{Binding ErrorMessage}" Classes="error" IsVisible="{Binding HasError}" />
+        <TextBlock Text="* - обязательные поля. Госномер в формате А123ВС33; VIN - 17 символов (латиница и цифры, без I, O, Q)."
+                   Classes="hint" Margin="0,8,0,0" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,14,0,0">
+            <Button Content="Сохранить" Classes="primary" Command="{Binding SaveCommand}" IsDefault="True" />
+            <Button Content="Отмена" Command="{Binding CancelCommand}" IsCancel="True" />
+        </StackPanel>
+    </StackPanel>
+    </ScrollViewer>
+</Window>

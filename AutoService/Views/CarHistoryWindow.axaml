@@ -1,0 +1,63 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AutoService.Views.CarHistoryWindow"
+        Title="История обслуживания автомобиля"
+        Width="980" Height="700" MinWidth="800" MinHeight="560"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="18" RowDefinitions="Auto,Auto,*,Auto,*,Auto">
+
+        <Border Classes="card" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" Spacing="14">
+                <StackPanel VerticalAlignment="Center" Spacing="3">
+                    <TextBlock Text="{Binding CarInfo}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding OwnerInfo}" Classes="hint" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Grid.Row="1" Text="Заказ-наряды (от новых к старым)" Classes="h2" />
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70" />
+                <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Width="140" />
+                <DataGridTextColumn Header="Дата окончания" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Width="140" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding StatusText}" Width="110" />
+                <DataGridTextColumn Header="Причина обращения" Binding="{Binding Reason}" Width="*" />
+                <DataGridTextColumn Header="Сумма, руб." Binding="{Binding Total, StringFormat='{}{0:N2}'}" Width="130" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Grid.Row="3" Text="Состав выбранного заказ-наряда" Classes="h2" />
+
+        <Grid Grid.Row="4" ColumnDefinitions="*,*">
+            <DataGrid Grid.Column="0" ItemsSource="{Binding SelectedOrder.Works}" AutoGenerateColumns="False" IsReadOnly="True"
+                      GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}" Margin="0,0,6,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Работа" Binding="{Binding ServiceName}" Width="*" />
+                    <DataGridTextColumn Header="Исполнитель" Binding="{Binding ExecutorName}" Width="110" />
+                    <DataGridTextColumn Header="Сумма" Binding="{Binding Sum, StringFormat='{}{0:N2}'}" Width="90" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedOrder.Parts}" AutoGenerateColumns="False" IsReadOnly="True"
+                      GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}" Margin="6,0,0,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Запчасть" Binding="{Binding PartName}" Width="*" />
+                    <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="70" />
+                    <DataGridTextColumn Header="Сумма" Binding="{Binding Sum, StringFormat='{}{0:N2}'}" Width="90" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <DockPanel Grid.Row="5" Margin="0,12,0,0">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="8">
+                <Button Content="Открыть заказ-наряд" Command="{Binding OpenOrderCommand}"
+                        IsEnabled="{Binding SelectedOrder, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                <Button Content="Закрыть" Classes="primary" Command="{Binding CloseWindowCommand}" IsCancel="True" />
+            </StackPanel>
+            <TextBlock Text="{Binding Summary}" Classes="hint" VerticalAlignment="Center" />
+        </DockPanel>
+    </Grid>
+</Window>

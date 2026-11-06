@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AutoService.Views.ClientsView">
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
+        <TextBlock Text="Клиенты" Classes="h1" />
+
+        <WrapPanel Grid.Row="1" Classes="row" Margin="0,0,0,10">
+            <TextBlock Text="Поиск:" VerticalAlignment="Center" />
+            <TextBox Width="320" Text="{Binding SearchText}">
+                <TextBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}" />
+                </TextBox.KeyBindings>
+            </TextBox>
+            <Button Content="Найти" Classes="primary" Command="{Binding SearchCommand}" />
+            <Button Content="Сбросить" Command="{Binding ResetCommand}" />
+            <TextBlock Text="ФИО, телефон, e-mail или госномер автомобиля" Classes="hint" VerticalAlignment="Center" />
+        </WrapPanel>
+
+        <DataGrid x:Name="ClientsGrid" Grid.Row="2" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*" />
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="*" />
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="150" />
+                <DataGridTextColumn Header="E-mail" Binding="{Binding Email}" Width="1.3*" />
+                <DataGridTextColumn Header="Автомобилей" Binding="{Binding CarsCount}" Width="110" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="3" Margin="0,10,0,0">
+            <TextBlock Text="Автомобили выбранного клиента" Classes="h2" />
+            <DataGrid ItemsSource="{Binding SelectedClient.Cars}" AutoGenerateColumns="False" IsReadOnly="True"
+                      Height="120" GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Госномер" Binding="{Binding RegistrationNumber}" Width="130" />
+                    <DataGridTextColumn Header="VIN" Binding="{Binding VIN}" Width="*" />
+                    <DataGridTextColumn Header="Год" Binding="{Binding Year}" Width="80" />
+                    <DataGridTextColumn Header="Двигатель" Binding="{Binding EngineType}" Width="120" />
+                    <DataGridTextColumn Header="Пробег, км" Binding="{Binding Mileage}" Width="110" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <WrapPanel Grid.Row="4" Classes="row" Margin="0,10,0,0">
+            <Button Content="+ Добавить клиента" Classes="primary" Command="{Binding AddCommand}" />
+            <Button Content="Изменить" Command="{Binding EditCommand}" IsEnabled="{Binding SelectedClient, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <Button Content="Добавить автомобиль клиенту" Command="{Binding AddCarCommand}" IsEnabled="{Binding SelectedClient, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <Button Content="Удалить" Classes="danger" Command="{Binding DeleteCommand}" IsVisible="{Binding IsAdmin}"
+                    IsEnabled="{Binding SelectedClient, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <TextBlock Text="{Binding Summary}" Classes="hint" VerticalAlignment="Center" Margin="12,0,0,0" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

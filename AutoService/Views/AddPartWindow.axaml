@@ -1,0 +1,58 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AutoService.Views.AddPartWindow"
+        Title="{Binding Title}"
+        Width="780" Height="600" MinWidth="620" MinHeight="480"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="20" RowDefinitions="Auto,Auto,*,Auto,Auto">
+        <TextBlock Text="{Binding Title}" Classes="h1" />
+
+        <WrapPanel Grid.Row="1" Classes="row" IsVisible="{Binding CanPickPart}" Margin="0,0,0,4">
+            <TextBlock Text="Поиск:" VerticalAlignment="Center" />
+            <TextBox Width="320" Text="{Binding SearchText}" />
+            <TextBlock Text="по артикулу или наименованию" Classes="hint" VerticalAlignment="Center" />
+        </WrapPanel>
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  IsEnabled="{Binding CanPickPart}"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Артикул" Binding="{Binding Article}" Width="160" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Цена, руб." Binding="{Binding Price, StringFormat='{}{0:N2}'}" Width="110" />
+                <DataGridTextColumn Header="Остаток" Binding="{Binding StockQuantity}" Width="90" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border Grid.Row="3" Classes="card" Margin="0,12,0,0">
+            <StackPanel>
+                <Grid ColumnDefinitions="*,*,*">
+                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                        <TextBlock Text="Количество *" Classes="label" Margin="0,0,0,3" />
+                        <TextBox Text="{Binding QuantityText}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                        <TextBlock Text="Цена, руб." Classes="label" Margin="0,0,0,3" />
+                        <TextBox Text="{Binding PriceText}" IsReadOnly="True" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Сумма, руб." Classes="label" Margin="0,0,0,3" />
+                        <TextBox Text="{Binding SumText}" IsReadOnly="True" />
+                    </StackPanel>
+                </Grid>
+                <TextBlock Text="{Binding StockInfo}" Classes="hint" Margin="0,8,0,0" />
+                <TextBlock Text="При добавлении остаток на складе уменьшается, при удалении позиции - возвращается."
+                           Classes="hint" Margin="0,4,0,0" />
+            </StackPanel>
+        </Border>
+
+        <DockPanel Grid.Row="4" Margin="0,12,0,0">
+            <WrapPanel DockPanel.Dock="Right" Classes="row">
+                <Button Content="{Binding ConfirmText}" Classes="primary" Command="{Binding ConfirmCommand}" IsDefault="True" />
+                <Button Content="Отмена" Command="{Binding CancelCommand}" IsCancel="True" />
+            </WrapPanel>
+            <TextBlock Text="{Binding ErrorMessage}" Classes="error" IsVisible="{Binding HasError}" Margin="0,0,12,0" VerticalAlignment="Center" />
+        </DockPanel>
+    </Grid>
+</Window>

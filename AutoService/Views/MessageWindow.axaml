@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AutoService.Views.MessageWindow"
+        Width="460" SizeToContent="Height" MinHeight="150"
+        CanResize="False" WindowStartupLocation="CenterOwner"
+        Title="Сообщение">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="20" Spacing="18">
+        <TextBlock x:Name="MessageText" TextWrapping="Wrap" FontSize="14" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button x:Name="YesButton" Classes="primary" Content="OK" MinWidth="90" IsDefault="True" Click="OnYes" />
+            <Button x:Name="NoButton" Content="Отмена" MinWidth="90" IsCancel="True" Click="OnNo" />
+        </StackPanel>
+    </StackPanel>
+    </ScrollViewer>
+</Window>

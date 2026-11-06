@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AutoService.Views.BrandsView">
+    <Grid ColumnDefinitions="*,*" Margin="0,10,0,0">
+
+        <Grid Grid.Column="0" RowDefinitions="Auto,*,Auto" Margin="0,0,8,0">
+            <TextBlock Text="Марки" Classes="h2" Margin="0,0,0,6" />
+
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}"
+                      AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                      GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Марка" Binding="{Binding Name}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="2" Margin="0,8,0,0" Spacing="6" IsVisible="{Binding IsAdmin}">
+                <TextBox Text="{Binding BrandName}" />
+                <WrapPanel Classes="row">
+                    <Button Content="Добавить" Classes="primary" Command="{Binding AddBrandCommand}" />
+                    <Button Content="Переименовать" Command="{Binding RenameBrandCommand}" />
+                    <Button Content="Удалить" Classes="danger" Command="{Binding DeleteBrandCommand}" />
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto" Margin="8,0,0,0">
+            <TextBlock Text="Модели выбранной марки" Classes="h2" Margin="0,0,0,6" />
+
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedModel}"
+                      AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                      GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Модель" Binding="{Binding Name}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="2" Margin="0,8,0,0" Spacing="6" IsVisible="{Binding IsAdmin}">
+                <TextBox Text="{Binding ModelName}" />
+                <WrapPanel Classes="row">
+                    <Button Content="Добавить" Classes="primary" Command="{Binding AddModelCommand}" />
+                    <Button Content="Переименовать" Command="{Binding RenameModelCommand}" />
+                    <Button Content="Удалить" Classes="danger" Command="{Binding DeleteModelCommand}" />
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

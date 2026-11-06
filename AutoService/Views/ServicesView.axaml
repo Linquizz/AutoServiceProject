@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AutoService.Views.ServicesView">
+    <Grid RowDefinitions="Auto,*,Auto" Margin="0,10,0,0">
+        <WrapPanel Classes="row">
+            <TextBlock Text="Поиск по названию:" VerticalAlignment="Center" />
+            <TextBox Width="300" Text="{Binding SearchText}">
+                <TextBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}" />
+                </TextBox.KeyBindings>
+            </TextBox>
+            <Button Content="Найти" Classes="primary" Command="{Binding SearchCommand}" />
+        </WrapPanel>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="2*" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*" />
+                <DataGridTextColumn Header="Стоимость, руб." Binding="{Binding Price, StringFormat='{}{0:N2}'}" Width="140" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Margin="0,8,0,0" IsVisible="{Binding IsAdmin}">
+            <Grid ColumnDefinitions="2*,*,140" Margin="0,0,0,6">
+                <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                    <TextBlock Text="Наименование *" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding NameText}" MaxLength="200" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="0,0,6,0">
+                    <TextBlock Text="Описание" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding DescriptionText}" MaxLength="500" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Стоимость, руб. *" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding PriceText}" />
+                </StackPanel>
+            </Grid>
+            <WrapPanel Classes="row">
+                <Button Content="Добавить как новую" Classes="primary" Command="{Binding AddCommand}" />
+                <Button Content="Сохранить изменения" Command="{Binding SaveCommand}" />
+                <Button Content="Удалить" Classes="danger" Command="{Binding DeleteCommand}" />
+                <Button Content="Очистить форму" Command="{Binding ClearFormCommand}" />
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

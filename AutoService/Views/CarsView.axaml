@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AutoService.Views.CarsView">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <TextBlock Text="Автомобили" Classes="h1" />
+
+        <WrapPanel Grid.Row="1" Classes="row" Margin="0,0,0,10">
+            <TextBlock Text="Поиск:" VerticalAlignment="Center" />
+            <TextBox Width="320" Text="{Binding SearchText}">
+                <TextBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}" />
+                </TextBox.KeyBindings>
+            </TextBox>
+            <Button Content="Найти" Classes="primary" Command="{Binding SearchCommand}" />
+            <Button Content="Сбросить" Command="{Binding ResetCommand}" />
+            <TextBlock Text="госномер, VIN, владелец, марка или модель" Classes="hint" VerticalAlignment="Center" />
+        </WrapPanel>
+
+        <DataGrid x:Name="CarsGrid" Grid.Row="2" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Госномер" Binding="{Binding RegistrationNumber}" Width="120" />
+                <DataGridTextColumn Header="Марка" Binding="{Binding Model.Brand.Name}" Width="*" />
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model.Name}" Width="*" />
+                <DataGridTextColumn Header="Год" Binding="{Binding Year}" Width="70" />
+                <DataGridTextColumn Header="Двигатель" Binding="{Binding EngineType}" Width="110" />
+                <DataGridTextColumn Header="Пробег, км" Binding="{Binding Mileage}" Width="100" />
+                <DataGridTextColumn Header="VIN" Binding="{Binding VIN}" Width="1.4*" />
+                <DataGridTextColumn Header="Владелец" Binding="{Binding Client.FullName}" Width="1.5*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <WrapPanel Grid.Row="3" Classes="row" Margin="0,10,0,0">
+            <Button Content="+ Зарегистрировать автомобиль" Classes="primary" Command="{Binding AddCommand}" />
+            <Button Content="Изменить" Command="{Binding EditCommand}" IsEnabled="{Binding SelectedCar, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <Button Content="История обслуживания" Command="{Binding HistoryCommand}" IsEnabled="{Binding SelectedCar, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <Button Content="Создать заказ-наряд" Command="{Binding CreateOrderCommand}" IsEnabled="{Binding SelectedCar, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <TextBlock Text="{Binding Summary}" Classes="hint" VerticalAlignment="Center" Margin="12,0,0,0" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

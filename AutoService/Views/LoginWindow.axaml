@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AutoService.Views.LoginWindow"
+        Title="Автосервис - вход"
+        Width="420" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterScreen">
+    <Border Padding="28" Background="{DynamicResource AppBackgroundBrush}">
+        <Border Classes="card" Padding="26">
+            <StackPanel Spacing="2">
+                <TextBlock Text="Автосервис" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" />
+                <TextBlock Text="Вход в программу" Classes="hint" HorizontalAlignment="Center" Margin="0,0,0,14" />
+
+                <TextBlock Text="Логин" Classes="label" />
+                <TextBox Text="{Binding Login}" />
+
+                <TextBlock Text="Пароль" Classes="label" />
+                <TextBox Text="{Binding Password}" PasswordChar="●" />
+
+                <TextBlock Text="{Binding ErrorMessage}" Classes="error" IsVisible="{Binding HasError}" />
+                <TextBlock Text="{Binding StatusMessage}" Classes="hint" Margin="0,8,0,0" />
+
+                <Button Content="Войти" Classes="primary" Command="{Binding SignInCommand}"
+                        IsDefault="True" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                        Margin="0,16,0,0" />
+            </StackPanel>
+        </Border>
+    </Border>
+</Window>

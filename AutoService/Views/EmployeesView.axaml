@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AutoService.Views.EmployeesView">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <TextBlock Text="Сотрудники" Classes="h2" Margin="0,0,0,6" />
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding Selected}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="2*" />
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position}" Width="*" />
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="150" />
+                <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="130" />
+                <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="110" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Margin="0,8,0,0">
+            <Grid ColumnDefinitions="*,*,*,150,*" Margin="0,0,0,4">
+                <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                    <TextBlock Text="Фамилия *" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding LastName}" MaxLength="50" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="0,0,6,0">
+                    <TextBlock Text="Имя *" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding FirstName}" MaxLength="50" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Margin="0,0,6,0">
+                    <TextBlock Text="Отчество" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding MiddleName}" MaxLength="50" />
+                </StackPanel>
+                <StackPanel Grid.Column="3" Margin="0,0,6,0">
+                    <TextBlock Text="Телефон *" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding Phone}" MaxLength="20" />
+                </StackPanel>
+                <StackPanel Grid.Column="4">
+                    <TextBlock Text="Должность *" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding Position}" MaxLength="50" />
+                </StackPanel>
+            </Grid>
+            <Grid ColumnDefinitions="*,*,*" Margin="0,0,0,6">
+                <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                    <TextBlock Text="Логин (пусто - не входит в программу)" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding Login}" MaxLength="50" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="0,0,6,0">
+                    <TextBlock Text="Пароль (при изменении: пусто - не менять)" Classes="label" Margin="0,0,0,2" />
+                    <TextBox Text="{Binding Password}" PasswordChar="●" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Роль *" Classes="label" Margin="0,0,0,2" />
+                    <ComboBox ItemsSource="{Binding RoleOptions}" SelectedItem="{Binding Role}" HorizontalAlignment="Stretch" />
+                </StackPanel>
+            </Grid>
+            <WrapPanel Classes="row">
+                <Button Content="Добавить как нового" Classes="primary" Command="{Binding AddCommand}" />
+                <Button Content="Сохранить изменения" Command="{Binding SaveCommand}" />
+                <Button Content="Удалить" Classes="danger" Command="{Binding DeleteCommand}" />
+                <Button Content="Очистить форму" Command="{Binding ClearFormCommand}" />
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

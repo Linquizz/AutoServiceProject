@@ -1,0 +1,115 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AutoService.Views.OrderEditWindow"
+        Title="{Binding Title}"
+        Width="1100" Height="760" MinWidth="860" MinHeight="560"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="16" RowDefinitions="Auto,Auto,*,Auto">
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,10">
+            <Border DockPanel.Dock="Right" Classes="status" Classes.done="{Binding IsCompleted}" VerticalAlignment="Center">
+                <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold" />
+            </Border>
+            <TextBlock Text="{Binding Title}" Classes="h1" Margin="0" />
+        </DockPanel>
+
+        <Border Grid.Row="1" Classes="card">
+            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*,*">
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="Клиент *" Classes="label" />
+                    <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}"
+                              IsEnabled="{Binding CanChangeCar}" HorizontalAlignment="Stretch" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+                    <TextBlock Text="Автомобиль *" Classes="label" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <ComboBox ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}"
+                                  IsEnabled="{Binding CanChangeCar}" HorizontalAlignment="Stretch" />
+                        <Button Grid.Column="1" Content="+ Новый автомобиль" Margin="8,0,0,0"
+                                Command="{Binding NewCarCommand}" IsEnabled="{Binding CanChangeCar}" />
+                    </Grid>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding CarInfo}" Classes="hint" Margin="0,4,0,0" />
+
+                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="Дата начала работ" Classes="label" />
+                    <TextBox Text="{Binding StartDateText}" IsReadOnly="True" />
+                    <TextBlock Text="Дата окончания работ" Classes="label" />
+                    <TextBox Text="{Binding EndDateText}" IsReadOnly="True" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+                    <TextBlock Text="Причина обращения" Classes="label" />
+                    <TextBox Text="{Binding Reason}" IsEnabled="{Binding CanEditHeader}" MaxLength="500"
+                             AcceptsReturn="True" TextWrapping="Wrap" MinHeight="96" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="2" Margin="0,10,0,0">
+
+            <TabItem Header="Выполненные работы">
+                <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                    <DataGrid ItemsSource="{Binding Works}" SelectedItem="{Binding SelectedWork}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                              GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Работа" Binding="{Binding ServiceName}" Width="*" />
+                            <DataGridTextColumn Header="Исполнитель" Binding="{Binding ExecutorName}" Width="170" />
+                            <DataGridTextColumn Header="Время, ч" Binding="{Binding Duration, StringFormat='{}{0:0.00}'}" Width="90" />
+                            <DataGridTextColumn Header="Стоимость, руб." Binding="{Binding Sum, StringFormat='{}{0:N2}'}" Width="130" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0" Spacing="6" IsEnabled="{Binding CanEditStructure}">
+                        <Button Content="Добавить" Classes="primary" Command="{Binding AddWorkCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+                        <Button Content="Изменить" Command="{Binding EditWorkCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+                        <Button Content="Удалить" Command="{Binding DeleteWorkCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Запасные части">
+                <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                    <DataGrid ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                              GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Артикул" Binding="{Binding Article}" Width="170" />
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding PartName}" Width="*" />
+                            <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="80" />
+                            <DataGridTextColumn Header="Цена, руб." Binding="{Binding Price, StringFormat='{}{0:N2}'}" Width="110" />
+                            <DataGridTextColumn Header="Сумма, руб." Binding="{Binding Sum, StringFormat='{}{0:N2}'}" Width="120" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0" Spacing="6" IsEnabled="{Binding CanEditStructure}">
+                        <Button Content="Добавить" Classes="primary" Command="{Binding AddPartCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+                        <Button Content="Изменить" Command="{Binding EditPartCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+                        <Button Content="Удалить" Command="{Binding DeletePartCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="3" Margin="0,10,0,0" Spacing="8">
+            <WrapPanel Classes="row" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding TotalWorks, StringFormat='Работы: {0}'}" VerticalAlignment="Center" Margin="0,0,18,6" />
+                <TextBlock Text="{Binding TotalParts, StringFormat='Запчасти: {0}'}" VerticalAlignment="Center" Margin="0,0,18,6" />
+                <TextBlock Text="{Binding TotalAll, StringFormat='ИТОГО: {0} руб.'}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,6" />
+            </WrapPanel>
+            <TextBlock Text="{Binding EmailInfo}" Classes="hint" />
+
+            <WrapPanel Classes="row">
+                <Button Content="Сохранить" Classes="primary" Command="{Binding SaveCommand}" IsEnabled="{Binding CanEditHeader}" />
+                <Button Content="Завершить работы" Command="{Binding CompleteCommand}" IsVisible="{Binding CanComplete}" />
+                <Button Content="Вернуть в работу" Command="{Binding ReopenCommand}" IsVisible="{Binding CanReopen}" />
+                <Button Content="Сформировать PDF" Command="{Binding CreatePdfCommand}" IsEnabled="{Binding IsSaved}" />
+                <Button Content="Отправить клиенту" Command="{Binding SendEmailCommand}" IsEnabled="{Binding IsSaved}" />
+                <Button Content="Закрыть" Command="{Binding CloseWindowCommand}" />
+            </WrapPanel>
+            <TextBlock Text="{Binding ErrorMessage}" Classes="error" IsVisible="{Binding HasError}" Margin="0" />
+        </StackPanel>
+    </Grid>
+</Window>

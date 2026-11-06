@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AutoService.Views.OrdersView">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <TextBlock Text="Заказ-наряды" Classes="h1" />
+
+        <WrapPanel Grid.Row="1" Margin="0,0,0,10">
+            <TextBox Width="260" Margin="0,0,8,6" Text="{Binding SearchText}">
+                <TextBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}" />
+                </TextBox.KeyBindings>
+            </TextBox>
+            <TextBlock Text="Статус:" VerticalAlignment="Center" Margin="0,0,6,6" />
+            <ComboBox ItemsSource="{Binding StatusOptions}" SelectedItem="{Binding SelectedStatus}" Width="130" Margin="0,0,12,6" />
+            <TextBlock Text="Дата с:" VerticalAlignment="Center" Margin="0,0,6,6" />
+            <CalendarDatePicker SelectedDate="{Binding DateFrom}" Margin="0,0,8,6" />
+            <TextBlock Text="по:" VerticalAlignment="Center" Margin="0,0,6,6" />
+            <CalendarDatePicker SelectedDate="{Binding DateTo}" Margin="0,0,12,6" />
+            <Button Content="Найти" Classes="primary" Command="{Binding SearchCommand}" Margin="0,0,8,6" />
+            <Button Content="Сбросить" Command="{Binding ResetCommand}" Margin="0,0,8,6" />
+            <TextBlock Text="Поиск: №, клиент, телефон, госномер, VIN, марка, модель" Classes="hint" VerticalAlignment="Center" Margin="0,0,0,6" />
+        </WrapPanel>
+
+        <DataGrid x:Name="OrdersGrid" Grid.Row="2" ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder}"
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="{DynamicResource GridBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70" />
+                <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Width="140" />
+                <DataGridTextColumn Header="Клиент" Binding="{Binding ClientName}" Width="1.4*" />
+                <DataGridTextColumn Header="Автомобиль" Binding="{Binding CarTitle}" Width="*" />
+                <DataGridTextColumn Header="Госномер" Binding="{Binding RegistrationNumber}" Width="110" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding StatusText}" Width="100" />
+                <DataGridTextColumn Header="Сумма, руб." Binding="{Binding Total, StringFormat='{}{0:N2}'}" Width="120" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <WrapPanel Grid.Row="3" Classes="row" Margin="0,10,0,0">
+            <Button Content="+ Создать заказ-наряд" Classes="primary" Command="{Binding CreateCommand}" />
+            <Button Content="Открыть" Command="{Binding OpenCommand}" IsEnabled="{Binding SelectedOrder, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <Button Content="Изменить статус" Command="{Binding ToggleStatusCommand}" IsEnabled="{Binding SelectedOrder, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <Button Content="История обслуживания" Command="{Binding HistoryCommand}" IsEnabled="{Binding SelectedOrder, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            <TextBlock Text="{Binding Summary}" Classes="hint" VerticalAlignment="Center" Margin="12,0,0,0" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

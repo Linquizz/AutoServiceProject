@@ -1,0 +1,125 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AutoService"
+             x:Class="AutoService.App"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F3F4F6" />
+                    <SolidColorBrush x:Key="NavBackgroundBrush" Color="#1F2937" />
+                    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="CardBorderBrush" Color="#E5E7EB" />
+                    <SolidColorBrush x:Key="GridBorderBrush" Color="#D1D5DB" />
+                    <SolidColorBrush x:Key="LabelForegroundBrush" Color="#4B5563" />
+                    <SolidColorBrush x:Key="HintForegroundBrush" Color="#6B7280" />
+                    <SolidColorBrush x:Key="ErrorForegroundBrush" Color="#B91C1C" />
+                    <SolidColorBrush x:Key="StatusBackgroundBrush" Color="#FEF3C7" />
+                    <SolidColorBrush x:Key="StatusDoneBackgroundBrush" Color="#D1FAE5" />
+                    <SolidColorBrush x:Key="StatusForegroundBrush" Color="#1F2937" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#18181B" />
+                    <SolidColorBrush x:Key="NavBackgroundBrush" Color="#0F172A" />
+                    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#27272A" />
+                    <SolidColorBrush x:Key="CardBorderBrush" Color="#3F3F46" />
+                    <SolidColorBrush x:Key="GridBorderBrush" Color="#52525B" />
+                    <SolidColorBrush x:Key="LabelForegroundBrush" Color="#D4D4D8" />
+                    <SolidColorBrush x:Key="HintForegroundBrush" Color="#A1A1AA" />
+                    <SolidColorBrush x:Key="ErrorForegroundBrush" Color="#FCA5A5" />
+                    <SolidColorBrush x:Key="StatusBackgroundBrush" Color="#78350F" />
+                    <SolidColorBrush x:Key="StatusDoneBackgroundBrush" Color="#065F46" />
+                    <SolidColorBrush x:Key="StatusForegroundBrush" Color="#F9FAFB" />
+                </ResourceDictionary>
+
+            </ResourceDictionary.ThemeDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+
+        <Style Selector="Window">
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style Selector="TextBlock.h2">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,8,0,6" />
+        </Style>
+        <Style Selector="TextBlock.label">
+            <Setter Property="Foreground" Value="{DynamicResource LabelForegroundBrush}" />
+            <Setter Property="Margin" Value="0,8,0,3" />
+        </Style>
+        <Style Selector="TextBlock.hint">
+            <Setter Property="Foreground" Value="{DynamicResource HintForegroundBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style Selector="TextBlock.error">
+            <Setter Property="Foreground" Value="{DynamicResource ErrorForegroundBrush}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,8,0,0" />
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="14,7" />
+        </Style>
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#2563EB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#1D4ED8" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Button.danger">
+            <Setter Property="Background" Value="#DC2626" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="Button.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#B91C1C" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14" />
+        </Style>
+
+        <Style Selector="Border.status">
+            <Setter Property="Background" Value="{DynamicResource StatusBackgroundBrush}" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="12,4" />
+        </Style>
+        <Style Selector="Border.status.done">
+            <Setter Property="Background" Value="{DynamicResource StatusDoneBackgroundBrush}" />
+        </Style>
+        <Style Selector="Border.status TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource StatusForegroundBrush}" />
+        </Style>
+
+        <Style Selector="WrapPanel.row > :is(Control)">
+            <Setter Property="Margin" Value="0,0,8,6" />
+        </Style>
+    </Application.Styles>
+</Application>
